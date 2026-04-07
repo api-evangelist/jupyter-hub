@@ -7,11 +7,11 @@ description: >-
 type: Index
 image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
 tags:
-  - Jupyter
-  - Notebooks
-  - Multi-user
-  - Education
   - Data Science
+  - Education
+  - Jupyter
+  - Multi-User
+  - Notebooks
 url: https://raw.githubusercontent.com/api-evangelist/jupyter-hub/refs/heads/main/apis.yml
 created: '2024-01-01'
 modified: '2026-03-16'
@@ -25,10 +25,10 @@ apis:
     humanURL: https://jupyterhub.readthedocs.io/en/stable/reference/rest-api.html
     baseURL: https://your-jupyterhub-domain.com/hub/api
     tags:
-      - REST API
-      - Users
-      - Servers
       - Authentication
+      - REST API
+      - Servers
+      - Users
     properties:
       - type: Documentation
         url: https://jupyterhub.readthedocs.io/en/stable/reference/rest-api.html
