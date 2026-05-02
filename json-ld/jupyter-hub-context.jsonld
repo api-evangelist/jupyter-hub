@@ -1,0 +1,18 @@
+{
+  "@context": {
+    "@vocab": "https://schema.org/",
+    "jh": "https://raw.githubusercontent.com/api-evangelist/jupyter-hub/main/json-ld/jupyter-hub-context.jsonld#",
+    "name": "schema:name",
+    "description": "schema:description",
+    "url": "schema:url",
+    "User": "jh:User",
+    "Group": "jh:Group",
+    "Service": "jh:Service",
+    "Server": "jh:Server",
+    "Token": "jh:Token",
+    "Hub": "jh:Hub",
+    "username": "jh:username",
+    "admin": "jh:admin",
+    "lastActivity": "jh:lastActivity"
+  }
+}

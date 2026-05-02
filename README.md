@@ -1,37 +1,50 @@
-# JupyterHub APIs (jupyter-hub)
-APIs for JupyterHub - a multi-user server for Jupyter notebooks
+# JupyterHub (jupyter-hub)
 
-**URL:** [Visit APIs.json URL](https://jupyter.org/hub)
+JupyterHub is a multi-user server for Jupyter notebooks. It manages and proxies multiple instances of the single-user Jupyter notebook server, providing authentication and spawning for multiple users.
 
-## Tags:
+**URL:** [https://jupyter.org/hub](https://jupyter.org/hub)
 
- - jupyter, jupyterhub, notebooks, data science, education, python, api
+## Tags
+
+- Data Science, Education, Jupyter, Multi-User, Notebooks
 
 ## Timestamps
 
-- **Created:** 2024 
-- **Modified:** 2024 
+- **Created:** 2024-01-01
+- **Modified:** 2026-04-28
 
 ## APIs
 
 ### JupyterHub REST API
-REST API for managing JupyterHub users, servers, and services
+
+REST API for managing JupyterHub users, groups, services, and single-user notebook servers. Authentication is performed via API tokens.
 
 **Human URL:** [https://jupyterhub.readthedocs.io/en/stable/reference/rest-api.html](https://jupyterhub.readthedocs.io/en/stable/reference/rest-api.html)
 
+**Base URL:** `https://your-jupyterhub-domain.com/hub/api`
 
-#### Tags:
+#### Tags
 
- - jupyter, notebooks, multi-user, education, data science
+- Authentication, REST API, Servers, Users
 
 #### Properties
 
-- [documentation](https://jupyterhub.readthedocs.io/en/stable/reference/rest-api.html)
-- [openapi](https://petstore.swagger.io/?url=https://raw.githubusercontent.com/jupyterhub/jupyterhub/main/docs/rest-api.yml)
-- [authentication](https://jupyterhub.readthedocs.io/en/stable/reference/rest-api.html#authentication)
+- [Documentation](https://jupyterhub.readthedocs.io/en/stable/reference/rest-api.html)
+- [OpenAPI (local)](openapi/jupyter-hub-openapi.yml)
+- [OpenAPI (upstream)](https://raw.githubusercontent.com/jupyterhub/jupyterhub/main/docs/source/_static/rest-api.yml)
+- [JSONSchema - User](json-schema/jupyter-hub-user.json)
+- [Authentication](https://jupyterhub.readthedocs.io/en/stable/reference/rest-api.html#authentication)
+
+## Common Properties
+
+- [Website](https://jupyter.org/hub)
+- [Documentation](https://jupyterhub.readthedocs.io/)
+- [Getting Started](https://jupyterhub.readthedocs.io/en/stable/tutorial/quickstart.html)
+- [GitHub Organization](https://github.com/jupyterhub)
+- [Community](https://discourse.jupyter.org/c/jupyterhub)
+- [JSON-LD Context](json-ld/jupyter-hub-context.jsonld)
 
 ## Maintainers
 
-**FN:** Project Jupyter
-
-**Email:** jupyter@googlegroups.com
+- **FN:** Kin Lane
+- **Email:** kin@apievangelist.com

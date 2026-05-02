@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/jupyter-hub/main/json-schema/jupyter-hub-user.json",
+  "title": "JupyterHub User",
+  "description": "Schema for a JupyterHub user as exposed by the Hub REST API.",
+  "type": "object",
+  "required": ["name"],
+  "properties": {
+    "name": { "type": "string", "description": "Username." },
+    "admin": { "type": "boolean", "description": "Whether the user is an administrator." },
+    "groups": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Group memberships."
+    },
+    "server": {
+      "type": ["string", "null"],
+      "description": "URL of the user's default server, if running."
+    },
+    "pending": {
+      "type": ["string", "null"],
+      "enum": ["spawn", "stop", null],
+      "description": "Pending state of the default server, if any."
+    },
+    "created": { "type": "string", "format": "date-time" },
+    "last_activity": { "type": ["string", "null"], "format": "date-time" },
+    "servers": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "ready": { "type": "boolean" },
+          "started": { "type": ["string", "null"], "format": "date-time" },
+          "url": { "type": "string" },
+          "user_options": { "type": "object" },
+          "progress_url": { "type": "string" }
+        }
+      }
+    },
+    "kind": {
+      "type": "string",
+      "enum": ["user"]
+    }
+  }
+}
