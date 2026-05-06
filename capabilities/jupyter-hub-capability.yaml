@@ -1,0 +1,747 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: JupyterHub REST API
+  description: REST API for managing JupyterHub users, groups, services, and single-user notebook servers. Authentication
+    is performed via API tokens.
+  tags:
+  - Jupyter
+  - Hub
+  - API
+  created: '2026-05-06'
+  modified: '2026-05-06'
+capability:
+  consumes:
+  - type: http
+    namespace: jupyter-hub
+    baseUri: https://your-jupyterhub-domain.com/hub/api
+    description: JupyterHub REST API HTTP API.
+    authentication:
+      type: bearer
+      token: '{{JUPYTER_HUB_TOKEN}}'
+    resources:
+    - name: resource
+      path: /
+      operations:
+      - name: gethubinfo
+        method: GET
+        description: Get JupyterHub version
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: info
+      path: /info
+      operations:
+      - name: gethubdetailedinfo
+        method: GET
+        description: Get detailed Hub info
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: users
+      path: /users
+      operations:
+      - name: listusers
+        method: GET
+        description: List users
+        inputParameters:
+        - name: state
+          in: query
+          type: string
+        - name: offset
+          in: query
+          type: integer
+        - name: limit
+          in: query
+          type: integer
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: createusers
+        method: POST
+        description: Create multiple users
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: users-name
+      path: /users/{name}
+      operations:
+      - name: getuser
+        method: GET
+        description: Get a user
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: createuser
+        method: POST
+        description: Create a single user
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: deleteuser
+        method: DELETE
+        description: Delete a user
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: users-name-server
+      path: /users/{name}/server
+      operations:
+      - name: startuserserver
+        method: POST
+        description: Start a user's default server
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: stopuserserver
+        method: DELETE
+        description: Stop a user's default server
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: users-name-servers-server-name
+      path: /users/{name}/servers/{server_name}
+      operations:
+      - name: startnamedserver
+        method: POST
+        description: Start a named server for a user
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: stopnamedserver
+        method: DELETE
+        description: Stop a named server for a user
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: users-name-tokens
+      path: /users/{name}/tokens
+      operations:
+      - name: listusertokens
+        method: GET
+        description: List a user's tokens
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: createusertoken
+        method: POST
+        description: Create a new token for a user
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: groups
+      path: /groups
+      operations:
+      - name: listgroups
+        method: GET
+        description: List groups
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: groups-name
+      path: /groups/{name}
+      operations:
+      - name: getgroup
+        method: GET
+        description: Get a group
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: creategroup
+        method: POST
+        description: Create a group
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: deletegroup
+        method: DELETE
+        description: Delete a group
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: groups-name-users
+      path: /groups/{name}/users
+      operations:
+      - name: adduserstogroup
+        method: POST
+        description: Add users to a group
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: removeusersfromgroup
+        method: DELETE
+        description: Remove users from a group
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: services
+      path: /services
+      operations:
+      - name: listservices
+        method: GET
+        description: List services
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: services-name
+      path: /services/{name}
+      operations:
+      - name: getservice
+        method: GET
+        description: Get a service
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: proxy
+      path: /proxy
+      operations:
+      - name: getproxyroutes
+        method: GET
+        description: Get the proxy's routing table
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: shutdown
+      path: /shutdown
+      operations:
+      - name: shutdownhub
+        method: POST
+        description: Shut down the Hub
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+  exposes:
+  - type: rest
+    port: 8080
+    namespace: jupyter-hub-rest
+    description: REST adapter for JupyterHub REST API.
+    resources:
+    - path: /
+      name: gethubinfo
+      operations:
+      - method: GET
+        name: gethubinfo
+        description: Get JupyterHub version
+        call: jupyter-hub.gethubinfo
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /info
+      name: gethubdetailedinfo
+      operations:
+      - method: GET
+        name: gethubdetailedinfo
+        description: Get detailed Hub info
+        call: jupyter-hub.gethubdetailedinfo
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /users
+      name: listusers
+      operations:
+      - method: GET
+        name: listusers
+        description: List users
+        call: jupyter-hub.listusers
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /users
+      name: createusers
+      operations:
+      - method: POST
+        name: createusers
+        description: Create multiple users
+        call: jupyter-hub.createusers
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /users/{name}
+      name: getuser
+      operations:
+      - method: GET
+        name: getuser
+        description: Get a user
+        call: jupyter-hub.getuser
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /users/{name}
+      name: createuser
+      operations:
+      - method: POST
+        name: createuser
+        description: Create a single user
+        call: jupyter-hub.createuser
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /users/{name}
+      name: deleteuser
+      operations:
+      - method: DELETE
+        name: deleteuser
+        description: Delete a user
+        call: jupyter-hub.deleteuser
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /users/{name}/server
+      name: startuserserver
+      operations:
+      - method: POST
+        name: startuserserver
+        description: Start a user's default server
+        call: jupyter-hub.startuserserver
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /users/{name}/server
+      name: stopuserserver
+      operations:
+      - method: DELETE
+        name: stopuserserver
+        description: Stop a user's default server
+        call: jupyter-hub.stopuserserver
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /users/{name}/servers/{server_name}
+      name: startnamedserver
+      operations:
+      - method: POST
+        name: startnamedserver
+        description: Start a named server for a user
+        call: jupyter-hub.startnamedserver
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /users/{name}/servers/{server_name}
+      name: stopnamedserver
+      operations:
+      - method: DELETE
+        name: stopnamedserver
+        description: Stop a named server for a user
+        call: jupyter-hub.stopnamedserver
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /users/{name}/tokens
+      name: listusertokens
+      operations:
+      - method: GET
+        name: listusertokens
+        description: List a user's tokens
+        call: jupyter-hub.listusertokens
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /users/{name}/tokens
+      name: createusertoken
+      operations:
+      - method: POST
+        name: createusertoken
+        description: Create a new token for a user
+        call: jupyter-hub.createusertoken
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /groups
+      name: listgroups
+      operations:
+      - method: GET
+        name: listgroups
+        description: List groups
+        call: jupyter-hub.listgroups
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /groups/{name}
+      name: getgroup
+      operations:
+      - method: GET
+        name: getgroup
+        description: Get a group
+        call: jupyter-hub.getgroup
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /groups/{name}
+      name: creategroup
+      operations:
+      - method: POST
+        name: creategroup
+        description: Create a group
+        call: jupyter-hub.creategroup
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /groups/{name}
+      name: deletegroup
+      operations:
+      - method: DELETE
+        name: deletegroup
+        description: Delete a group
+        call: jupyter-hub.deletegroup
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /groups/{name}/users
+      name: adduserstogroup
+      operations:
+      - method: POST
+        name: adduserstogroup
+        description: Add users to a group
+        call: jupyter-hub.adduserstogroup
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /groups/{name}/users
+      name: removeusersfromgroup
+      operations:
+      - method: DELETE
+        name: removeusersfromgroup
+        description: Remove users from a group
+        call: jupyter-hub.removeusersfromgroup
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /services
+      name: listservices
+      operations:
+      - method: GET
+        name: listservices
+        description: List services
+        call: jupyter-hub.listservices
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /services/{name}
+      name: getservice
+      operations:
+      - method: GET
+        name: getservice
+        description: Get a service
+        call: jupyter-hub.getservice
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /proxy
+      name: getproxyroutes
+      operations:
+      - method: GET
+        name: getproxyroutes
+        description: Get the proxy's routing table
+        call: jupyter-hub.getproxyroutes
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /shutdown
+      name: shutdownhub
+      operations:
+      - method: POST
+        name: shutdownhub
+        description: Shut down the Hub
+        call: jupyter-hub.shutdownhub
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    port: 9090
+    namespace: jupyter-hub-mcp
+    transport: http
+    description: MCP adapter for JupyterHub REST API for AI agent use.
+    tools:
+    - name: gethubinfo
+      description: Get JupyterHub version
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: jupyter-hub.gethubinfo
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: gethubdetailedinfo
+      description: Get detailed Hub info
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: jupyter-hub.gethubdetailedinfo
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: listusers
+      description: List users
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: jupyter-hub.listusers
+      with:
+        state: tools.state
+        offset: tools.offset
+        limit: tools.limit
+      inputParameters:
+      - name: state
+        type: string
+        description: state
+      - name: offset
+        type: integer
+        description: offset
+      - name: limit
+        type: integer
+        description: limit
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: createusers
+      description: Create multiple users
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: jupyter-hub.createusers
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: getuser
+      description: Get a user
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: jupyter-hub.getuser
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: createuser
+      description: Create a single user
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: jupyter-hub.createuser
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: deleteuser
+      description: Delete a user
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: jupyter-hub.deleteuser
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: startuserserver
+      description: Start a user's default server
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: jupyter-hub.startuserserver
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: stopuserserver
+      description: Stop a user's default server
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: jupyter-hub.stopuserserver
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: startnamedserver
+      description: Start a named server for a user
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: jupyter-hub.startnamedserver
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: stopnamedserver
+      description: Stop a named server for a user
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: jupyter-hub.stopnamedserver
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: listusertokens
+      description: List a user's tokens
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: jupyter-hub.listusertokens
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: createusertoken
+      description: Create a new token for a user
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: jupyter-hub.createusertoken
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: listgroups
+      description: List groups
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: jupyter-hub.listgroups
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: getgroup
+      description: Get a group
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: jupyter-hub.getgroup
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: creategroup
+      description: Create a group
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: jupyter-hub.creategroup
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: deletegroup
+      description: Delete a group
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: jupyter-hub.deletegroup
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adduserstogroup
+      description: Add users to a group
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: jupyter-hub.adduserstogroup
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: removeusersfromgroup
+      description: Remove users from a group
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: jupyter-hub.removeusersfromgroup
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: listservices
+      description: List services
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: jupyter-hub.listservices
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: getservice
+      description: Get a service
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: jupyter-hub.getservice
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: getproxyroutes
+      description: Get the proxy's routing table
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: jupyter-hub.getproxyroutes
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: shutdownhub
+      description: Shut down the Hub
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: jupyter-hub.shutdownhub
+      outputParameters:
+      - type: object
+        mapping: $.
+binds:
+- namespace: env
+  keys:
+    JUPYTER_HUB_TOKEN: JUPYTER_HUB_TOKEN
