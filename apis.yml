@@ -45,13 +45,13 @@ common:
     url: https://jupyter.org/hub
   - type: Documentation
     url: https://jupyterhub.readthedocs.io/
-  - type: Getting Started
+  - type: GettingStarted
     url: https://jupyterhub.readthedocs.io/en/stable/tutorial/quickstart.html
-  - type: GitHub Organization
+  - type: GitHubOrganization
     url: https://github.com/jupyterhub
   - type: Community
     url: https://discourse.jupyter.org/c/jupyterhub
-  - type: JSON-LD
+  - type: JSONLD
     url: json-ld/jupyter-hub-context.jsonld
 maintainers:
   - FN: Kin Lane
