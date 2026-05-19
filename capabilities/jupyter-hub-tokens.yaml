@@ -1,0 +1,95 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: JupyterHub REST API — Tokens
+  description: 'JupyterHub REST API — Tokens. 2 operations. Lead operation: List a user''s tokens. Self-contained Naftiko
+    capability covering one Jupyter Hub business surface.'
+  tags:
+  - Jupyter Hub
+  - Tokens
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    JUPYTER_HUB_API_KEY: JUPYTER_HUB_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: jupyter-hub-tokens
+    baseUri: https://your-jupyterhub-domain.com/hub/api
+    description: JupyterHub REST API — Tokens business capability. Self-contained, no shared references.
+    resources:
+    - name: users-name-tokens
+      path: /users/{name}/tokens
+      operations:
+      - name: listusertokens
+        method: GET
+        description: List a user's tokens
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: createusertoken
+        method: POST
+        description: Create a new token for a user
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: bearer
+      token: '{{env.JUPYTER_HUB_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: jupyter-hub-tokens-rest
+    port: 8080
+    description: REST adapter for JupyterHub REST API — Tokens. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/users/{name}/tokens
+      name: users-name-tokens
+      description: REST surface for users-name-tokens.
+      operations:
+      - method: GET
+        name: listusertokens
+        description: List a user's tokens
+        call: jupyter-hub-tokens.listusertokens
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createusertoken
+        description: Create a new token for a user
+        call: jupyter-hub-tokens.createusertoken
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: jupyter-hub-tokens-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for JupyterHub REST API — Tokens. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: list-user-s-tokens
+      description: List a user's tokens
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: jupyter-hub-tokens.listusertokens
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-new-token-user
+      description: Create a new token for a user
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: jupyter-hub-tokens.createusertoken
+      outputParameters:
+      - type: object
+        mapping: $.

@@ -1,0 +1,166 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: JupyterHub REST API — Hub
+  description: 'JupyterHub REST API — Hub. 4 operations. Lead operation: Get JupyterHub version. Self-contained Naftiko capability
+    covering one Jupyter Hub business surface.'
+  tags:
+  - Jupyter Hub
+  - Hub
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    JUPYTER_HUB_API_KEY: JUPYTER_HUB_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: jupyter-hub-hub
+    baseUri: https://your-jupyterhub-domain.com/hub/api
+    description: JupyterHub REST API — Hub business capability. Self-contained, no shared references.
+    resources:
+    - name: root
+      path: /
+      operations:
+      - name: gethubinfo
+        method: GET
+        description: Get JupyterHub version
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: info
+      path: /info
+      operations:
+      - name: gethubdetailedinfo
+        method: GET
+        description: Get detailed Hub info
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: proxy
+      path: /proxy
+      operations:
+      - name: getproxyroutes
+        method: GET
+        description: Get the proxy's routing table
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: shutdown
+      path: /shutdown
+      operations:
+      - name: shutdownhub
+        method: POST
+        description: Shut down the Hub
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: bearer
+      token: '{{env.JUPYTER_HUB_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: jupyter-hub-hub-rest
+    port: 8080
+    description: REST adapter for JupyterHub REST API — Hub. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1
+      name: root
+      description: REST surface for root.
+      operations:
+      - method: GET
+        name: gethubinfo
+        description: Get JupyterHub version
+        call: jupyter-hub-hub.gethubinfo
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/info
+      name: info
+      description: REST surface for info.
+      operations:
+      - method: GET
+        name: gethubdetailedinfo
+        description: Get detailed Hub info
+        call: jupyter-hub-hub.gethubdetailedinfo
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/proxy
+      name: proxy
+      description: REST surface for proxy.
+      operations:
+      - method: GET
+        name: getproxyroutes
+        description: Get the proxy's routing table
+        call: jupyter-hub-hub.getproxyroutes
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/shutdown
+      name: shutdown
+      description: REST surface for shutdown.
+      operations:
+      - method: POST
+        name: shutdownhub
+        description: Shut down the Hub
+        call: jupyter-hub-hub.shutdownhub
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: jupyter-hub-hub-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for JupyterHub REST API — Hub. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: get-jupyterhub-version
+      description: Get JupyterHub version
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: jupyter-hub-hub.gethubinfo
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-detailed-hub-info
+      description: Get detailed Hub info
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: jupyter-hub-hub.gethubdetailedinfo
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-proxy-s-routing-table
+      description: Get the proxy's routing table
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: jupyter-hub-hub.getproxyroutes
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: shut-down-hub
+      description: Shut down the Hub
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: jupyter-hub-hub.shutdownhub
+      outputParameters:
+      - type: object
+        mapping: $.

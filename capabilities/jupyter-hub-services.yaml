@@ -1,0 +1,102 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: JupyterHub REST API — Services
+  description: 'JupyterHub REST API — Services. 2 operations. Lead operation: List services. Self-contained Naftiko capability
+    covering one Jupyter Hub business surface.'
+  tags:
+  - Jupyter Hub
+  - Services
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    JUPYTER_HUB_API_KEY: JUPYTER_HUB_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: jupyter-hub-services
+    baseUri: https://your-jupyterhub-domain.com/hub/api
+    description: JupyterHub REST API — Services business capability. Self-contained, no shared references.
+    resources:
+    - name: services
+      path: /services
+      operations:
+      - name: listservices
+        method: GET
+        description: List services
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: services-name
+      path: /services/{name}
+      operations:
+      - name: getservice
+        method: GET
+        description: Get a service
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: bearer
+      token: '{{env.JUPYTER_HUB_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: jupyter-hub-services-rest
+    port: 8080
+    description: REST adapter for JupyterHub REST API — Services. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/services
+      name: services
+      description: REST surface for services.
+      operations:
+      - method: GET
+        name: listservices
+        description: List services
+        call: jupyter-hub-services.listservices
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/services/{name}
+      name: services-name
+      description: REST surface for services-name.
+      operations:
+      - method: GET
+        name: getservice
+        description: Get a service
+        call: jupyter-hub-services.getservice
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: jupyter-hub-services-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for JupyterHub REST API — Services. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: list-services
+      description: List services
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: jupyter-hub-services.listservices
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-service
+      description: Get a service
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: jupyter-hub-services.getservice
+      outputParameters:
+      - type: object
+        mapping: $.

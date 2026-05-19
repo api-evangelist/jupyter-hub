@@ -1,0 +1,209 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: JupyterHub REST API — Groups
+  description: 'JupyterHub REST API — Groups. 6 operations. Lead operation: List groups. Self-contained Naftiko capability
+    covering one Jupyter Hub business surface.'
+  tags:
+  - Jupyter Hub
+  - Groups
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    JUPYTER_HUB_API_KEY: JUPYTER_HUB_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: jupyter-hub-groups
+    baseUri: https://your-jupyterhub-domain.com/hub/api
+    description: JupyterHub REST API — Groups business capability. Self-contained, no shared references.
+    resources:
+    - name: groups
+      path: /groups
+      operations:
+      - name: listgroups
+        method: GET
+        description: List groups
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: groups-name
+      path: /groups/{name}
+      operations:
+      - name: getgroup
+        method: GET
+        description: Get a group
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: creategroup
+        method: POST
+        description: Create a group
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: deletegroup
+        method: DELETE
+        description: Delete a group
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: groups-name-users
+      path: /groups/{name}/users
+      operations:
+      - name: adduserstogroup
+        method: POST
+        description: Add users to a group
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: removeusersfromgroup
+        method: DELETE
+        description: Remove users from a group
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: bearer
+      token: '{{env.JUPYTER_HUB_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: jupyter-hub-groups-rest
+    port: 8080
+    description: REST adapter for JupyterHub REST API — Groups. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/groups
+      name: groups
+      description: REST surface for groups.
+      operations:
+      - method: GET
+        name: listgroups
+        description: List groups
+        call: jupyter-hub-groups.listgroups
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/groups/{name}
+      name: groups-name
+      description: REST surface for groups-name.
+      operations:
+      - method: GET
+        name: getgroup
+        description: Get a group
+        call: jupyter-hub-groups.getgroup
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: creategroup
+        description: Create a group
+        call: jupyter-hub-groups.creategroup
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deletegroup
+        description: Delete a group
+        call: jupyter-hub-groups.deletegroup
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/groups/{name}/users
+      name: groups-name-users
+      description: REST surface for groups-name-users.
+      operations:
+      - method: POST
+        name: adduserstogroup
+        description: Add users to a group
+        call: jupyter-hub-groups.adduserstogroup
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: removeusersfromgroup
+        description: Remove users from a group
+        call: jupyter-hub-groups.removeusersfromgroup
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: jupyter-hub-groups-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for JupyterHub REST API — Groups. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: list-groups
+      description: List groups
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: jupyter-hub-groups.listgroups
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-group
+      description: Get a group
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: jupyter-hub-groups.getgroup
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-group
+      description: Create a group
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: jupyter-hub-groups.creategroup
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-group
+      description: Delete a group
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: jupyter-hub-groups.deletegroup
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: add-users-group
+      description: Add users to a group
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: jupyter-hub-groups.adduserstogroup
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: remove-users-group
+      description: Remove users from a group
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: jupyter-hub-groups.removeusersfromgroup
+      outputParameters:
+      - type: object
+        mapping: $.
