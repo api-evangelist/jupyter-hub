@@ -1,0 +1,445 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "JupyterHub REST API",
+    "version": "5.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Hub",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get JupyterHub version",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://your-jupyterhub-domain.com/hub/api/"
+          },
+          "docs": "Get JupyterHub version"
+        },
+        {
+          "info": {
+            "name": "Get detailed Hub info",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://your-jupyterhub-domain.com/hub/api/info"
+          },
+          "docs": "Get detailed Hub info"
+        },
+        {
+          "info": {
+            "name": "Get the proxy's routing table",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://your-jupyterhub-domain.com/hub/api/proxy"
+          },
+          "docs": "Get the proxy's routing table"
+        },
+        {
+          "info": {
+            "name": "Shut down the Hub",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://your-jupyterhub-domain.com/hub/api/shutdown"
+          },
+          "docs": "Shut down the Hub"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Users",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List users",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://your-jupyterhub-domain.com/hub/api/users",
+            "params": [
+              {
+                "name": "state",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "List users"
+        },
+        {
+          "info": {
+            "name": "Create multiple users",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://your-jupyterhub-domain.com/hub/api/users",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create multiple users"
+        },
+        {
+          "info": {
+            "name": "Get a user",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://your-jupyterhub-domain.com/hub/api/users/:name",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a user"
+        },
+        {
+          "info": {
+            "name": "Create a single user",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://your-jupyterhub-domain.com/hub/api/users/:name",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Create a single user"
+        },
+        {
+          "info": {
+            "name": "Delete a user",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://your-jupyterhub-domain.com/hub/api/users/:name",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete a user"
+        },
+        {
+          "info": {
+            "name": "Start a user's default server",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://your-jupyterhub-domain.com/hub/api/users/:name/server",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Start a user's default server"
+        },
+        {
+          "info": {
+            "name": "Stop a user's default server",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://your-jupyterhub-domain.com/hub/api/users/:name/server",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Stop a user's default server"
+        },
+        {
+          "info": {
+            "name": "Start a named server for a user",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://your-jupyterhub-domain.com/hub/api/users/:name/servers/:server_name",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "server_name",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Start a named server for a user"
+        },
+        {
+          "info": {
+            "name": "Stop a named server for a user",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://your-jupyterhub-domain.com/hub/api/users/:name/servers/:server_name",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "server_name",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Stop a named server for a user"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Tokens",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List a user's tokens",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://your-jupyterhub-domain.com/hub/api/users/:name/tokens",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "List a user's tokens"
+        },
+        {
+          "info": {
+            "name": "Create a new token for a user",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://your-jupyterhub-domain.com/hub/api/users/:name/tokens",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Create a new token for a user"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Groups",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List groups",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://your-jupyterhub-domain.com/hub/api/groups"
+          },
+          "docs": "List groups"
+        },
+        {
+          "info": {
+            "name": "Get a group",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://your-jupyterhub-domain.com/hub/api/groups/:name",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a group"
+        },
+        {
+          "info": {
+            "name": "Create a group",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://your-jupyterhub-domain.com/hub/api/groups/:name",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Create a group"
+        },
+        {
+          "info": {
+            "name": "Delete a group",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://your-jupyterhub-domain.com/hub/api/groups/:name",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete a group"
+        },
+        {
+          "info": {
+            "name": "Add users to a group",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://your-jupyterhub-domain.com/hub/api/groups/:name/users",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Add users to a group"
+        },
+        {
+          "info": {
+            "name": "Remove users from a group",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://your-jupyterhub-domain.com/hub/api/groups/:name/users",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Remove users from a group"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Services",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List services",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://your-jupyterhub-domain.com/hub/api/services"
+          },
+          "docs": "List services"
+        },
+        {
+          "info": {
+            "name": "Get a service",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://your-jupyterhub-domain.com/hub/api/services/:name",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a service"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
