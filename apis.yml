@@ -4,7 +4,7 @@ description: >-
   JupyterHub is a multi-user server for Jupyter notebooks. It manages and proxies multiple instances of the single-user
   Jupyter notebook server, providing authentication and spawning for multiple users.
 type: Index
-image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
 tags:
   - Data Science
   - Education
