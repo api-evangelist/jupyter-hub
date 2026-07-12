@@ -1,0 +1,13 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/jupyter-hub-openapi.yml
+summary:
+  types:
+  - http
+schemes:
+- name: tokenAuth
+  type: http
+  scheme: bearer
+  bearerFormat: JupyterHub-Token
+  sources:
+  - openapi/jupyter-hub-openapi.yml

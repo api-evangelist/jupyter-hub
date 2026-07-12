@@ -40,6 +40,12 @@ apis:
       - type: Authentication
         url: https://jupyterhub.readthedocs.io/en/stable/reference/rest-api.html#authentication
 common:
+  - type: VulnerabilityDisclosure
+    url: security/jupyter-hub-vulnerability-disclosure.yml
+  - type: DomainSecurity
+    url: security/jupyter-hub-domain-security.yml
+  - type: Authentication
+    url: authentication/jupyter-hub-authentication.yml
   - type: LinkedIn
     url: https://www.linkedin.com/company/project-jupyter
   - type: Website
@@ -54,6 +60,8 @@ common:
     url: https://discourse.jupyter.org/c/jupyterhub
   - type: JSONLD
     url: json-ld/jupyter-hub-context.jsonld
+  - url: https://blog.jupyter.org/feed
+    type: Blog
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
