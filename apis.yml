@@ -40,6 +40,8 @@ apis:
       - type: Authentication
         url: https://jupyterhub.readthedocs.io/en/stable/reference/rest-api.html#authentication
 common:
+  - type: AgenticAccess
+    url: agentic-access/jupyter-hub-agentic-access.yml
   - type: VulnerabilityDisclosure
     url: security/jupyter-hub-vulnerability-disclosure.yml
   - type: DomainSecurity
