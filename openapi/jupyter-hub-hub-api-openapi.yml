@@ -1,0 +1,62 @@
+openapi: 3.0.3
+info:
+  title: JupyterHub REST Groups Hub API
+  description: REST API for managing JupyterHub users, groups, services, and single-user notebook servers. Authentication is performed via API tokens.
+  version: '5.0'
+  contact:
+    name: Project Jupyter
+    url: https://jupyter.org
+  license:
+    name: BSD-3-Clause
+    url: https://github.com/jupyterhub/jupyterhub/blob/main/COPYING.md
+servers:
+- url: https://your-jupyterhub-domain.com/hub/api
+  description: JupyterHub deployment
+security:
+- tokenAuth: []
+tags:
+- name: Hub
+  description: Hub-level metadata and shutdown.
+paths:
+  /:
+    get:
+      tags:
+      - Hub
+      summary: Get JupyterHub version
+      operationId: getHubInfo
+      responses:
+        '200':
+          description: Hub version metadata.
+  /info:
+    get:
+      tags:
+      - Hub
+      summary: Get detailed Hub info
+      operationId: getHubDetailedInfo
+      responses:
+        '200':
+          description: Detailed Hub configuration info.
+  /proxy:
+    get:
+      tags:
+      - Hub
+      summary: Get the proxy's routing table
+      operationId: getProxyRoutes
+      responses:
+        '200':
+          description: Routing table from the proxy.
+  /shutdown:
+    post:
+      tags:
+      - Hub
+      summary: Shut down the Hub
+      operationId: shutdownHub
+      responses:
+        '202':
+          description: Shutdown initiated.
+components:
+  securitySchemes:
+    tokenAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JupyterHub-Token

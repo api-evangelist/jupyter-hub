@@ -1,0 +1,157 @@
+openapi: 3.0.3
+info:
+  title: JupyterHub REST Groups Users API
+  description: REST API for managing JupyterHub users, groups, services, and single-user notebook servers. Authentication is performed via API tokens.
+  version: '5.0'
+  contact:
+    name: Project Jupyter
+    url: https://jupyter.org
+  license:
+    name: BSD-3-Clause
+    url: https://github.com/jupyterhub/jupyterhub/blob/main/COPYING.md
+servers:
+- url: https://your-jupyterhub-domain.com/hub/api
+  description: JupyterHub deployment
+security:
+- tokenAuth: []
+tags:
+- name: Users
+  description: User accounts and their servers.
+paths:
+  /users:
+    get:
+      tags:
+      - Users
+      summary: List users
+      operationId: listUsers
+      parameters:
+      - in: query
+        name: state
+        schema:
+          type: string
+          enum:
+          - inactive
+          - active
+          - ready
+      - in: query
+        name: offset
+        schema:
+          type: integer
+      - in: query
+        name: limit
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: A list of users.
+    post:
+      tags:
+      - Users
+      summary: Create multiple users
+      operationId: createUsers
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                usernames:
+                  type: array
+                  items:
+                    type: string
+                admin:
+                  type: boolean
+      responses:
+        '201':
+          description: Users created.
+  /users/{name}:
+    parameters:
+    - in: path
+      name: name
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Users
+      summary: Get a user
+      operationId: getUser
+      responses:
+        '200':
+          description: User details.
+    post:
+      tags:
+      - Users
+      summary: Create a single user
+      operationId: createUser
+      responses:
+        '201':
+          description: User created.
+    delete:
+      tags:
+      - Users
+      summary: Delete a user
+      operationId: deleteUser
+      responses:
+        '204':
+          description: User deleted.
+  /users/{name}/server:
+    parameters:
+    - in: path
+      name: name
+      required: true
+      schema:
+        type: string
+    post:
+      tags:
+      - Users
+      summary: Start a user's default server
+      operationId: startUserServer
+      responses:
+        '201':
+          description: Server started.
+        '202':
+          description: Server is starting (async).
+    delete:
+      tags:
+      - Users
+      summary: Stop a user's default server
+      operationId: stopUserServer
+      responses:
+        '204':
+          description: Server stopped.
+  /users/{name}/servers/{server_name}:
+    parameters:
+    - in: path
+      name: name
+      required: true
+      schema:
+        type: string
+    - in: path
+      name: server_name
+      required: true
+      schema:
+        type: string
+    post:
+      tags:
+      - Users
+      summary: Start a named server for a user
+      operationId: startNamedServer
+      responses:
+        '201':
+          description: Named server started.
+    delete:
+      tags:
+      - Users
+      summary: Stop a named server for a user
+      operationId: stopNamedServer
+      responses:
+        '204':
+          description: Named server stopped.
+components:
+  securitySchemes:
+    tokenAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JupyterHub-Token

@@ -1,0 +1,50 @@
+openapi: 3.0.3
+info:
+  title: JupyterHub REST Groups Services API
+  description: REST API for managing JupyterHub users, groups, services, and single-user notebook servers. Authentication is performed via API tokens.
+  version: '5.0'
+  contact:
+    name: Project Jupyter
+    url: https://jupyter.org
+  license:
+    name: BSD-3-Clause
+    url: https://github.com/jupyterhub/jupyterhub/blob/main/COPYING.md
+servers:
+- url: https://your-jupyterhub-domain.com/hub/api
+  description: JupyterHub deployment
+security:
+- tokenAuth: []
+tags:
+- name: Services
+  description: Hub-managed and external services.
+paths:
+  /services:
+    get:
+      tags:
+      - Services
+      summary: List services
+      operationId: listServices
+      responses:
+        '200':
+          description: List of registered services.
+  /services/{name}:
+    parameters:
+    - in: path
+      name: name
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Services
+      summary: Get a service
+      operationId: getService
+      responses:
+        '200':
+          description: Service details.
+components:
+  securitySchemes:
+    tokenAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JupyterHub-Token

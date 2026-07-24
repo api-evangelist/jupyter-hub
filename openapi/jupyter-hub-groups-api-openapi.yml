@@ -1,0 +1,89 @@
+openapi: 3.0.3
+info:
+  title: JupyterHub REST Groups API
+  description: REST API for managing JupyterHub users, groups, services, and single-user notebook servers. Authentication is performed via API tokens.
+  version: '5.0'
+  contact:
+    name: Project Jupyter
+    url: https://jupyter.org
+  license:
+    name: BSD-3-Clause
+    url: https://github.com/jupyterhub/jupyterhub/blob/main/COPYING.md
+servers:
+- url: https://your-jupyterhub-domain.com/hub/api
+  description: JupyterHub deployment
+security:
+- tokenAuth: []
+tags:
+- name: Groups
+  description: Group membership.
+paths:
+  /groups:
+    get:
+      tags:
+      - Groups
+      summary: List groups
+      operationId: listGroups
+      responses:
+        '200':
+          description: List of groups.
+  /groups/{name}:
+    parameters:
+    - in: path
+      name: name
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Groups
+      summary: Get a group
+      operationId: getGroup
+      responses:
+        '200':
+          description: Group details.
+    post:
+      tags:
+      - Groups
+      summary: Create a group
+      operationId: createGroup
+      responses:
+        '201':
+          description: Group created.
+    delete:
+      tags:
+      - Groups
+      summary: Delete a group
+      operationId: deleteGroup
+      responses:
+        '204':
+          description: Group deleted.
+  /groups/{name}/users:
+    parameters:
+    - in: path
+      name: name
+      required: true
+      schema:
+        type: string
+    post:
+      tags:
+      - Groups
+      summary: Add users to a group
+      operationId: addUsersToGroup
+      responses:
+        '200':
+          description: Users added to group.
+    delete:
+      tags:
+      - Groups
+      summary: Remove users from a group
+      operationId: removeUsersFromGroup
+      responses:
+        '200':
+          description: Users removed from group.
+components:
+  securitySchemes:
+    tokenAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JupyterHub-Token
