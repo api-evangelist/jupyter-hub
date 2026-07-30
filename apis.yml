@@ -4,7 +4,20 @@ description: >-
   JupyterHub is a multi-user server for Jupyter notebooks. It manages and proxies multiple instances of the single-user
   Jupyter notebook server, providing authentication and spawning for multiple users.
 type: Index
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: freemium
+  onboarding: self-serve
+  trial: false
+  try_now: true
+  public: false
+  label: Freemium · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/jupyter-hub.png
 tags:
   - Data Science
   - Education
@@ -16,29 +29,86 @@ created: '2024-01-01'
 modified: '2026-05-19'
 specificationVersion: '0.19'
 apis:
-  - aid: jupyter-hub:jupyterhub-rest-api
-    name: JupyterHub REST API
-    description: >-
-      REST API for managing JupyterHub users, groups, services, and single-user notebook servers. Authentication is
-      performed via API tokens.
-    humanURL: https://jupyterhub.readthedocs.io/en/stable/reference/rest-api.html
-    baseURL: https://your-jupyterhub-domain.com/hub/api
-    tags:
-      - Authentication
-      - REST API
-      - Servers
-      - Users
-    properties:
-      - type: Documentation
-        url: https://jupyterhub.readthedocs.io/en/stable/reference/rest-api.html
-      - type: OpenAPI
-        url: openapi/jupyter-hub-openapi.yml
-      - type: OpenAPI
-        url: https://raw.githubusercontent.com/jupyterhub/jupyterhub/main/docs/source/_static/rest-api.yml
-      - type: JSONSchema
-        url: json-schema/jupyter-hub-user.json
-      - type: Authentication
-        url: https://jupyterhub.readthedocs.io/en/stable/reference/rest-api.html#authentication
+- aid: jupyter-hub:jupyter-hub-groups-api
+  name: JupyterHub Groups API
+  description: Group membership.
+  humanURL: https://jupyterhub.readthedocs.io/en/stable/reference/rest-api.html
+  baseURL: https://your-jupyterhub-domain.com/hub/api
+  tags:
+  - Groups
+  properties:
+  - type: OpenAPI
+    url: openapi/jupyter-hub-groups-api-openapi.yml
+  - type: Documentation
+    url: https://jupyterhub.readthedocs.io/en/stable/reference/rest-api.html
+  - type: JSONSchema
+    url: json-schema/jupyter-hub-user.json
+  - type: Authentication
+    url: https://jupyterhub.readthedocs.io/en/stable/reference/rest-api.html#authentication
+- aid: jupyter-hub:jupyter-hub-hub-api
+  name: JupyterHub Hub API
+  description: Hub-level metadata and shutdown.
+  humanURL: https://jupyterhub.readthedocs.io/en/stable/reference/rest-api.html
+  baseURL: https://your-jupyterhub-domain.com/hub/api
+  tags:
+  - Hub
+  properties:
+  - type: OpenAPI
+    url: openapi/jupyter-hub-hub-api-openapi.yml
+  - type: Documentation
+    url: https://jupyterhub.readthedocs.io/en/stable/reference/rest-api.html
+  - type: JSONSchema
+    url: json-schema/jupyter-hub-user.json
+  - type: Authentication
+    url: https://jupyterhub.readthedocs.io/en/stable/reference/rest-api.html#authentication
+- aid: jupyter-hub:jupyter-hub-services-api
+  name: JupyterHub Services API
+  description: Hub-managed and external services.
+  humanURL: https://jupyterhub.readthedocs.io/en/stable/reference/rest-api.html
+  baseURL: https://your-jupyterhub-domain.com/hub/api
+  tags:
+  - Services
+  properties:
+  - type: OpenAPI
+    url: openapi/jupyter-hub-services-api-openapi.yml
+  - type: Documentation
+    url: https://jupyterhub.readthedocs.io/en/stable/reference/rest-api.html
+  - type: JSONSchema
+    url: json-schema/jupyter-hub-user.json
+  - type: Authentication
+    url: https://jupyterhub.readthedocs.io/en/stable/reference/rest-api.html#authentication
+- aid: jupyter-hub:jupyter-hub-tokens-api
+  name: JupyterHub Tokens API
+  description: API token management.
+  humanURL: https://jupyterhub.readthedocs.io/en/stable/reference/rest-api.html
+  baseURL: https://your-jupyterhub-domain.com/hub/api
+  tags:
+  - Tokens
+  properties:
+  - type: OpenAPI
+    url: openapi/jupyter-hub-tokens-api-openapi.yml
+  - type: Documentation
+    url: https://jupyterhub.readthedocs.io/en/stable/reference/rest-api.html
+  - type: JSONSchema
+    url: json-schema/jupyter-hub-user.json
+  - type: Authentication
+    url: https://jupyterhub.readthedocs.io/en/stable/reference/rest-api.html#authentication
+- aid: jupyter-hub:jupyter-hub-users-api
+  name: JupyterHub Users API
+  description: User accounts and their servers.
+  humanURL: https://jupyterhub.readthedocs.io/en/stable/reference/rest-api.html
+  baseURL: https://your-jupyterhub-domain.com/hub/api
+  tags:
+  - Users
+  properties:
+  - type: OpenAPI
+    url: openapi/jupyter-hub-users-api-openapi.yml
+  - type: Documentation
+    url: https://jupyterhub.readthedocs.io/en/stable/reference/rest-api.html
+  - type: JSONSchema
+    url: json-schema/jupyter-hub-user.json
+  - type: Authentication
+    url: https://jupyterhub.readthedocs.io/en/stable/reference/rest-api.html#authentication
 common:
   - type: AgenticAccess
     url: agentic-access/jupyter-hub-agentic-access.yml
