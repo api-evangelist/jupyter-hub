@@ -1,0 +1,22 @@
+{
+  "provider": "jupyter-hub",
+  "sources": [
+    "jupyter-hub-groups-api-openapi.yml",
+    "jupyter-hub-hub-api-openapi.yml",
+    "jupyter-hub-services-api-openapi.yml",
+    "jupyter-hub-tokens-api-openapi.yml",
+    "jupyter-hub-users-api-openapi.yml"
+  ],
+  "outputs": [
+    "jupyter-hub-groups-api-openapi.yml",
+    "jupyter-hub-hub-api-openapi.yml",
+    "jupyter-hub-services-api-openapi.yml",
+    "jupyter-hub-tokens-api-openapi.yml",
+    "jupyter-hub-users-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}

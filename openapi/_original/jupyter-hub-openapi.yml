@@ -1,0 +1,287 @@
+openapi: 3.0.3
+info:
+  title: JupyterHub REST API
+  description: >-
+    REST API for managing JupyterHub users, groups, services, and single-user
+    notebook servers. Authentication is performed via API tokens.
+  version: '5.0'
+  contact:
+    name: Project Jupyter
+    url: https://jupyter.org
+  license:
+    name: BSD-3-Clause
+    url: https://github.com/jupyterhub/jupyterhub/blob/main/COPYING.md
+servers:
+  - url: https://your-jupyterhub-domain.com/hub/api
+    description: JupyterHub deployment
+security:
+  - tokenAuth: []
+tags:
+  - name: Hub
+    description: Hub-level metadata and shutdown.
+  - name: Users
+    description: User accounts and their servers.
+  - name: Groups
+    description: Group membership.
+  - name: Services
+    description: Hub-managed and external services.
+  - name: Tokens
+    description: API token management.
+paths:
+  /:
+    get:
+      tags: [Hub]
+      summary: Get JupyterHub version
+      operationId: getHubInfo
+      responses:
+        '200':
+          description: Hub version metadata.
+  /info:
+    get:
+      tags: [Hub]
+      summary: Get detailed Hub info
+      operationId: getHubDetailedInfo
+      responses:
+        '200':
+          description: Detailed Hub configuration info.
+  /users:
+    get:
+      tags: [Users]
+      summary: List users
+      operationId: listUsers
+      parameters:
+        - in: query
+          name: state
+          schema:
+            type: string
+            enum: [inactive, active, ready]
+        - in: query
+          name: offset
+          schema:
+            type: integer
+        - in: query
+          name: limit
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: A list of users.
+    post:
+      tags: [Users]
+      summary: Create multiple users
+      operationId: createUsers
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                usernames:
+                  type: array
+                  items:
+                    type: string
+                admin:
+                  type: boolean
+      responses:
+        '201':
+          description: Users created.
+  /users/{name}:
+    parameters:
+      - in: path
+        name: name
+        required: true
+        schema:
+          type: string
+    get:
+      tags: [Users]
+      summary: Get a user
+      operationId: getUser
+      responses:
+        '200':
+          description: User details.
+    post:
+      tags: [Users]
+      summary: Create a single user
+      operationId: createUser
+      responses:
+        '201':
+          description: User created.
+    delete:
+      tags: [Users]
+      summary: Delete a user
+      operationId: deleteUser
+      responses:
+        '204':
+          description: User deleted.
+  /users/{name}/server:
+    parameters:
+      - in: path
+        name: name
+        required: true
+        schema:
+          type: string
+    post:
+      tags: [Users]
+      summary: Start a user's default server
+      operationId: startUserServer
+      responses:
+        '201':
+          description: Server started.
+        '202':
+          description: Server is starting (async).
+    delete:
+      tags: [Users]
+      summary: Stop a user's default server
+      operationId: stopUserServer
+      responses:
+        '204':
+          description: Server stopped.
+  /users/{name}/servers/{server_name}:
+    parameters:
+      - in: path
+        name: name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: server_name
+        required: true
+        schema:
+          type: string
+    post:
+      tags: [Users]
+      summary: Start a named server for a user
+      operationId: startNamedServer
+      responses:
+        '201':
+          description: Named server started.
+    delete:
+      tags: [Users]
+      summary: Stop a named server for a user
+      operationId: stopNamedServer
+      responses:
+        '204':
+          description: Named server stopped.
+  /users/{name}/tokens:
+    parameters:
+      - in: path
+        name: name
+        required: true
+        schema:
+          type: string
+    get:
+      tags: [Tokens]
+      summary: List a user's tokens
+      operationId: listUserTokens
+      responses:
+        '200':
+          description: List of API tokens for the user.
+    post:
+      tags: [Tokens]
+      summary: Create a new token for a user
+      operationId: createUserToken
+      responses:
+        '201':
+          description: Token created.
+  /groups:
+    get:
+      tags: [Groups]
+      summary: List groups
+      operationId: listGroups
+      responses:
+        '200':
+          description: List of groups.
+  /groups/{name}:
+    parameters:
+      - in: path
+        name: name
+        required: true
+        schema:
+          type: string
+    get:
+      tags: [Groups]
+      summary: Get a group
+      operationId: getGroup
+      responses:
+        '200':
+          description: Group details.
+    post:
+      tags: [Groups]
+      summary: Create a group
+      operationId: createGroup
+      responses:
+        '201':
+          description: Group created.
+    delete:
+      tags: [Groups]
+      summary: Delete a group
+      operationId: deleteGroup
+      responses:
+        '204':
+          description: Group deleted.
+  /groups/{name}/users:
+    parameters:
+      - in: path
+        name: name
+        required: true
+        schema:
+          type: string
+    post:
+      tags: [Groups]
+      summary: Add users to a group
+      operationId: addUsersToGroup
+      responses:
+        '200':
+          description: Users added to group.
+    delete:
+      tags: [Groups]
+      summary: Remove users from a group
+      operationId: removeUsersFromGroup
+      responses:
+        '200':
+          description: Users removed from group.
+  /services:
+    get:
+      tags: [Services]
+      summary: List services
+      operationId: listServices
+      responses:
+        '200':
+          description: List of registered services.
+  /services/{name}:
+    parameters:
+      - in: path
+        name: name
+        required: true
+        schema:
+          type: string
+    get:
+      tags: [Services]
+      summary: Get a service
+      operationId: getService
+      responses:
+        '200':
+          description: Service details.
+  /proxy:
+    get:
+      tags: [Hub]
+      summary: Get the proxy's routing table
+      operationId: getProxyRoutes
+      responses:
+        '200':
+          description: Routing table from the proxy.
+  /shutdown:
+    post:
+      tags: [Hub]
+      summary: Shut down the Hub
+      operationId: shutdownHub
+      responses:
+        '202':
+          description: Shutdown initiated.
+components:
+  securitySchemes:
+    tokenAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JupyterHub-Token
